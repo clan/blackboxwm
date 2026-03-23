@@ -32,6 +32,8 @@
 #include <PixmapCache.hh>
 #include <Util.hh>
 
+#include <functional>
+
 extern "C" {
 #include <X11/Xresource.h>
 #include <sys/types.h>
@@ -130,7 +132,7 @@ void Blackbox::shutdown(void) {
   XSetInputFocus(XDisplay(), PointerRoot, RevertToPointerRoot, XTime());
 
   std::for_each(screen_list, screen_list + screen_list_count,
-                std::mem_fun(&BScreen::shutdown));
+                std::mem_fn(&BScreen::shutdown));
 
   XSync(XDisplay(), false);
 
@@ -399,7 +401,7 @@ void Blackbox::timeout(bt::Timer *) {
   menuTimestamps.clear();
 
   std::for_each(screen_list, screen_list + screen_list_count,
-                std::mem_fun(&BScreen::reconfigure));
+                std::mem_fn(&BScreen::reconfigure));
 
   bt::Color::clearCache();
   bt::Font::clearCache();
@@ -658,5 +660,5 @@ void Blackbox::rereadMenu(void) {
   menuTimestamps.clear();
 
   std::for_each(screen_list, screen_list + screen_list_count,
-                std::mem_fun(&BScreen::rereadMenu));
+                std::mem_fn(&BScreen::rereadMenu));
 }

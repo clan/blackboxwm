@@ -52,7 +52,7 @@
 #include <dirent.h>
 
 #include <cstring>
-
+#include <functional>
 
 static bool running = true;
 static int anotherWMRunning(Display *, XErrorEvent *) {
@@ -2081,12 +2081,12 @@ void BScreen::unmapNotifyEvent(const XUnmapEvent * const event) {
 
 void BScreen::toggleFocusModel(FocusModel model) {
   std::for_each(windowList.begin(), windowList.end(),
-                std::mem_fun(&BlackboxWindow::ungrabButtons));
+                std::mem_fn(&BlackboxWindow::ungrabButtons));
 
   _blackbox->resource().setFocusModel(model);
 
   std::for_each(windowList.begin(), windowList.end(),
-                std::mem_fun(&BlackboxWindow::grabButtons));
+                std::mem_fn(&BlackboxWindow::grabButtons));
 }
 
 
@@ -2130,7 +2130,7 @@ void BScreen::updateClientListHint(void) const {
   bt::EWMH::WindowList clientList(windowList.size());
 
   std::transform(windowList.begin(), windowList.end(), clientList.begin(),
-                 std::mem_fun(&BlackboxWindow::clientWindow));
+                 std::mem_fn(&BlackboxWindow::clientWindow));
 
   _blackbox->ewmh().setClientList(screen_info.rootWindow(), clientList);
 }
