@@ -69,11 +69,11 @@ namespace bt
 } // namespace bt
 
 /*
- * Workaround incomplete std::char_traits<> implementation in come
- * versions of the GNU C++ compiler.
+ * Workaround incomplete std::char_traits<> implementation in some
+ * versions of the GNU C++ compiler or libc++.
  */
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-#  if __GNUC__ == 3
+#if defined(_LIBCPP_VERSION) || \
+    (defined(__GNUC__) && !defined(__INTEL_COMPILER) && __GNUC__ == 3)
 namespace std {
 
   template<>
@@ -167,7 +167,6 @@ namespace std {
   };
 
 } // namespace std
-#  endif // __GNUC__ == 3
-#endif // __GNUC__ && !__INTEL_COMPILER
+#endif // _LIBCPP_VERSION || __GNUC__ == 3)
 
 #endif // __Unicode_hh
